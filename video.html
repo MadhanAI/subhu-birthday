@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Video Surprise</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+  body{margin:0;font-family:Poppins;background:linear-gradient(135deg,#fff7f9,#fff0f6);}
+  .wrap{max-width:900px;margin:40px auto;padding:24px;text-align:center}
+  h1{color:#ff69b4}
+  .video-box{background:#fff;border-radius:12px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+  .btn{margin-top:16px;background:#ff5fa2;color:#fff;border:none;padding:12px 16px;border-radius:12px;cursor:pointer}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Watch Your Surprise 🎬</h1>
+    <p style="color:#666">Click play to watch the birthday montage. Background music will fade while the video plays.</p>
+
+    <div class="video-box">
+      <!-- Replace video.mp4 with your uploaded file or use an external mp4 link -->
+      <video id="vid" width="100%" controls>
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support video tag.
+      </video>
+      <button class="btn" id="nextBtn">Continue ❤️</button>
+    </div>
+  </div>
+
+  <audio id="bg" preload="auto" loop></audio>
+  <script>
+    const AUDIO_SRC='https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+    const bg=document.getElementById('bg'); bg.src=AUDIO_SRC;
+    window.addEventListener('load', ()=>{ const t=parseFloat(localStorage.getItem('bg_time')||0); const p=localStorage.getItem('bg_playing')==='1'; if(p){ bg.currentTime=t; bg.play().catch(()=>{}); }});
+    window.addEventListener('beforeunload', ()=>{ localStorage.setItem('bg_time', Math.floor(bg.currentTime)); localStorage.setItem('bg_playing', bg.paused? '0':'1'); });
+
+    const vid=document.getElementById('vid');
+    vid.addEventListener('play', ()=>{ // fade bg out
+      let vol=1; const fade=setInterval(()=>{ vol-=0.07; if(vol<=0){ bg.volume=0; clearInterval(fade); } else bg.volume=vol; },120);
+    });
+    vid.addEventListener('pause', ()=>{ // fade bg back in
+      let vol=0; const fade=setInterval(()=>{ vol+=0.06; bg.volume=Math.min(vol,1); if(vol>=1){ clearInterval(fade); } },120);
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', ()=>{
+      localStorage.setItem('bg_time', Math.floor(bg.currentTime)); localStorage.setItem('bg_playing','1'); location.href='ending.html';
+    });
+  </script>
+</body>
+</html>
