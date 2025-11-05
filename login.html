@@ -1,0 +1,72 @@
+## File: index.html (Login page)
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Welcome — Secret Memories</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+  :root{--pink:#ff69b4;--soft:#ffe4ec}
+  body{margin:0;font-family:Poppins,system-ui;display:flex;align-items:center;justify-content:center;height:100vh;background:linear-gradient(135deg,#fff0f6,#ffe4ec)}
+  .card{background:#fff;padding:28px;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,0.08);text-align:center;max-width:420px}
+  h1{color:var(--pink);margin:0 0 6px}
+  p{color:#6b6b6b}
+  .input-row{display:flex;gap:8px;justify-content:center;margin-top:14px}
+  input{padding:10px;border-radius:10px;border:1px solid #ffd7e6;width:60%}
+  button{background:var(--pink);color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer}
+  .hint{font-size:0.9rem;color:#d16ba5;margin-top:10px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Hey Sis! 🎀</h1>
+    <p>Type the secret phrase to unlock your memories.</p>
+    <div class="input-row">
+      <input id="secret" placeholder="Secret phrase" aria-label="secret phrase">
+      <button id="go">Open</button>
+    </div>
+    <div class="hint">Hint: It's something I always tell you 💕</div>
+  </div>
+
+  <audio id="bg" preload="auto" loop></audio>
+  <script>
+    // ----- CONFIG -----
+    const SECRET = 'LoveYouSubhu';
+    const AUDIO_SRC = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'; // sample cheerful track
+
+    const bg = document.getElementById('bg');
+    bg.src = AUDIO_SRC;
+
+    // resume if previously playing
+    window.addEventListener('load', ()=>{
+      const wasPlaying = localStorage.getItem('bg_playing') === '1';
+      const time = parseFloat(localStorage.getItem('bg_time') || 0);
+      if(wasPlaying){ bg.currentTime = time; bg.play().catch(()=>{}); }
+    });
+
+    // save time when leaving
+    window.addEventListener('beforeunload', ()=>{
+      localStorage.setItem('bg_time', Math.floor(bg.currentTime));
+      localStorage.setItem('bg_playing', bg.paused ? '0' : '1');
+    });
+
+    document.getElementById('go').addEventListener('click', ()=>{
+      const v = document.getElementById('secret').value.trim();
+      if(v === SECRET){
+        // start music and go to memories
+        bg.play().catch(()=>{});
+        localStorage.setItem('bg_playing','1');
+        localStorage.setItem('bg_time', Math.floor(bg.currentTime));
+        // small confetti visual (simple)
+        document.body.style.transition='background 0.8s';
+        document.body.style.background='linear-gradient(135deg,#fff7f9,#ffecec)';
+        setTimeout(()=> location.href='memories.html',700);
+      } else alert('Oops — try again 💕');
+    });
+
+    document.getElementById('secret').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('go').click(); });
+  </script>
+</body>
+</html>
