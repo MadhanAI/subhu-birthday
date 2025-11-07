@@ -1,121 +1,192 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Video Surprise</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Your Surprise Video 🎬</title>
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-  body{margin:0;font-family:Poppins;background:linear-gradient(135deg,#fff7f9,#fff0f6);}
-  .wrap{max-width:900px;margin:40px auto;padding:24px;text-align:center}
-  h1{color:#ff69b4}
-  .video-box{background:#fff;border-radius:12px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
-  .btn{margin-top:16px;background:#ff5fa2;color:#fff;border:none;padding:12px 16px;border-radius:12px;cursor:pointer}
-  .controls{display:flex;gap:12px;justify-content:center;margin-top:12px}
-  .slide video {
-  max-width: 100%;
-  max-height: 80vh;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-  border-radius: 12px;
-  background: #fff;
-}
+
+  body{
+    margin:0;
+    font-family:Poppins, sans-serif;
+    background:linear-gradient(135deg,#ffeaf4,#fff5fa);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+  }
+
+  h1{
+    margin-top:20px;
+    color:#ff69b4;
+    font-weight:600;
+  }
+
+  .top-caption{
+    margin-top:6px;
+    margin-bottom:14px;
+    font-size:1.2rem;
+    color:#555;
+    text-align:center;
+    min-height:34px;
+  }
+
+  .content-box{
+    width:90%;
+    max-width:900px;
+    height:65vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+  }
+
+  .slide{
+    display:none;
+    width:100%;
+    height:100%;
+    flex-direction:column;
+    align-items:center;
+  }
+  .slide.active{ display:flex; }
+
+  .slide video{
+    max-width:100%;
+    max-height:60vh;
+    object-fit:contain;
+    border-radius:14px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.12);
+    transition:opacity .5s ease;
+    background:#fff1f7;
+  }
+  .slide:not(.active) video{ opacity:0; }
+  .slide.active video{ opacity:1; }
+
+  .controls{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+  }
+
+  .btn{
+    background:#ff85c1;
+    border:none;
+    padding:10px 18px;
+    border-radius:10px;
+    color:#fff;
+    cursor:pointer;
+    font-size:1rem;
+  }
+
+  .next-cta{
+    margin-top:12px;
+    background:#ff5fa2;
+    border:none;
+    padding:12px 20px;
+    border-radius:12px;
+    color:#fff;
+    font-size:1rem;
+    cursor:pointer;
+  }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Watch Your Surprise 🎬</h1>
-    <p style="color:#666">Click play to watch each video. Background music fades automatically.</p>
 
-    <div class="video-box">
-      <div id="vtrack" style="display:flex;transition:transform .6s;">
-        
-        <!-- Slide 1 -->
-        <div class="slide" style="min-width:100%;">
-          <video controls>
-            <source src="video.mp4" type="video/mp4">
-          </video>
-        </div>
+<h1>Your Surprise 🎬</h1>
 
-        <!-- Slide 2 -->
-        <div class="slide" style="min-width:100%;">
-          <video controls>
-            <source src="video2.mp4" type="video/mp4">
-          </video>
-        </div>
+<div class="top-caption" id="captionText">A special moment for you 💗</div>
 
-        <!-- Slide 3 -->
-        <div class="slide" style="min-width:100%;">
-          <video controls>
-            <source src="video3.mp4" type="video/mp4">
-          </video>
-        </div>
+<div class="content-box">
 
-        <!-- Slide 4 -->
-        <div class="slide" style="min-width:100%;">
-          <video controls>
-            <source src="video4.mp4" type="video/mp4">
-          </video>
-        </div>
-
-        <!-- Slide 5 -->
-        <div class="slide" style="min-width:100%;">
-          <video controls>
-            <source src="video5.mp4" type="video/mp4">
-          </video>
-        </div>
-
-      </div>
-
-      <div class="controls">
-        <button class="btn" id="prevVid">◀ Prev</button>
-        <button class="btn" id="nextVid">Next ▶</button>
-      </div>
-
-      <button class="btn" id="nextBtn">Continue ❤️</button>
-    </div>
+  <div class="slide active" data-caption="A memory captured forever 💕">
+    <video controls>
+      <source src="video.mp4" type="video/mp4">
+    </video>
   </div>
 
-  <audio id="bg" preload="auto" loop></audio>
+  <div class="slide" data-caption="Some bonds are accidental. Ours is a blessing ✨">
+    <video controls>
+      <source src="video2.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="slide" data-caption="This one still makes me smile 😄">
+    <video controls>
+      <source src="video3.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="slide" data-caption="And this one… pure happiness 💗">
+    <video controls>
+      <source src="video4.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="slide" data-caption="You are a chapter of my life I could never turn the page from — because you are the story itself. 💗">
+    <video controls>
+      <source src="video5.mp4" type="video/mp4">
+    </video>
+  </div>
+
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">◀ Prev</button>
+  <button class="btn" id="next">Next ▶</button>
+</div>
+
+<button class="next-cta" id="toEnd">Continue ❤️</button>
+
+<audio id="bg" preload="auto" loop src="https://www.bensound.com/bensound-music/bensound-tenderness.mp3"></audio>
+
 <script>
-  const AUDIO_SRC='https://www.bensound.com/bensound-music/bensound-tenderness.mp3';
-  const bg=document.getElementById('bg'); bg.src=AUDIO_SRC;
+  const bg=document.getElementById('bg');
+  const caption=document.getElementById('captionText');
 
-  window.addEventListener('load', ()=>{ 
-    const t=parseFloat(localStorage.getItem('bg_time')||0); 
-    const p=localStorage.getItem('bg_playing')==='1'; 
-    if(p){ bg.currentTime=t; bg.play().catch(()=>{}); }
-  });
-  window.addEventListener('beforeunload', ()=>{ 
-    localStorage.setItem('bg_time', Math.floor(bg.currentTime)); 
-    localStorage.setItem('bg_playing', bg.paused? '0':'1'); 
+  /* Resume music */
+  window.addEventListener('load',()=>{
+    if(localStorage.getItem('bg_playing')==='1'){
+      bg.currentTime=parseFloat(localStorage.getItem('bg_time')||0);
+      bg.play().catch(()=>{});
+    }
   });
 
-  const slides = document.querySelectorAll(".slide video");
-  const track = document.getElementById("vtrack");
-  let index = 0;
+  window.addEventListener('beforeunload',()=>{
+    localStorage.setItem('bg_time',Math.floor(bg.currentTime));
+    localStorage.setItem('bg_playing', bg.paused?'0':'1');
+  });
 
-  function update(){ track.style.transform = `translateX(-${index * 100}%)`; }
+  /* Slides */
+  const slides=[...document.querySelectorAll('.slide')];
+  const videos=[...document.querySelectorAll('video')];
+  let index=0;
 
-  document.getElementById("nextVid").onclick = ()=>{ index = (index+1) % slides.length; update(); };
-  document.getElementById("prevVid").onclick = ()=>{ index = (index-1+slides.length) % slides.length; update(); };
+  function show(){
+    slides.forEach((s,i)=>s.classList.toggle('active',i===index));
+    caption.textContent = slides[index].dataset.caption;
+    videos.forEach(v=>v.pause());
+  }
 
-  slides.forEach(v=>{
-    v.addEventListener('play', ()=>{
-      let vol=1; const fade=setInterval(()=>{ vol-=0.07; if(vol<=0){ bg.volume=0; clearInterval(fade);} else bg.volume=vol; },120);
+  document.getElementById('next').onclick=()=>{ index=(index+1)%slides.length; show(); };
+  document.getElementById('prev').onclick=()=>{ index=(index-1+slides.length)%slides.length; show(); };
+  document.getElementById('toEnd').onclick=()=> location.href='ending.html';
+
+  /* Fade music when video plays */
+  videos.forEach(v=>{
+    v.addEventListener('play',()=>{
+      let vol=bg.volume;
+      const fade=setInterval(()=>{ vol-=0.05; bg.volume=Math.max(vol,0); if(vol<=0) clearInterval(fade); },100);
     });
-    v.addEventListener('pause', ()=>{
-      let vol=0; const fade=setInterval(()=>{ vol+=0.06; bg.volume=Math.min(vol,1); if(vol>=1){ clearInterval(fade);} },120);
-    });
-  });
 
-  document.getElementById('nextBtn').addEventListener('click', ()=>{
-    localStorage.setItem('bg_time', Math.floor(bg.currentTime)); 
-    localStorage.setItem('bg_playing','1'); 
-    location.href='ending.html';
+    v.addEventListener('pause',()=>{
+      let vol=bg.volume;
+      const fade=setInterval(()=>{ vol+=0.05; bg.volume=Math.min(vol,1); if(vol>=1) clearInterval(fade); },100);
+    });
   });
 </script>
+
 </body>
 </html>
