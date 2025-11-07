@@ -58,7 +58,7 @@ h1{color:#ff69b4;text-align:center}
 <audio id="bg" preload="auto" loop></audio>
 <canvas id="conf" style="position:fixed;inset:0;pointer-events:none;z-index:5"></canvas>
 <script>
-const AUDIO_SRC = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+const AUDIO_SRC = 'https://www.bensound.com/bensound-music/bensound-tenderness.mp3';
 const bg = document.getElementById('bg'); bg.src=AUDIO_SRC;
 // resume
 window.addEventListener('load', ()=>{ const t=parseFloat(localStorage.getItem('bg_time')||0); const p=localStorage.getItem('bg_playing')==='1'; if(p){ bg.currentTime=t; bg.play().catch(()=>{}); }});

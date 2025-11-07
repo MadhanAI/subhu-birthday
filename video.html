@@ -10,50 +10,111 @@
   h1{color:#ff69b4}
   .video-box{background:#fff;border-radius:12px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
   .btn{margin-top:16px;background:#ff5fa2;color:#fff;border:none;padding:12px 16px;border-radius:12px;cursor:pointer}
+  .controls{display:flex;gap:12px;justify-content:center;margin-top:12px}
+  .slide video{
+    max-height:80vh;
+    width:auto;
+    max-width:100%;
+    object-fit:contain;
+    display:block;
+    margin:0 auto;
+    border-radius:12px;
+    background:#fff;
+  }
 </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Watch Your Surprise 🎬</h1>
-    <p style="color:#666">Click play to watch the birthday montage. Background music will fade while the video plays.</p>
+    <p style="color:#666">Click play to watch each video. Background music fades automatically.</p>
 
     <div class="video-box">
-      <!-- Replace video.mp4 with your uploaded file or use an external mp4 link -->
-      <video id="vid" controls style="
-  max-height: 80vh;
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-  border-radius: 12px;
-  background: #fff;
-">
-        <source src="video.mp4" type="video/mp4">
-        Your browser does not support video tag.
-      </video>
+      <div id="vtrack" style="display:flex;transition:transform .6s;">
+        
+        <!-- Slide 1 -->
+        <div class="slide" style="min-width:100%;">
+          <video controls>
+            <source src="video.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide" style="min-width:100%;">
+          <video controls>
+            <source src="video2.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide" style="min-width:100%;">
+          <video controls>
+            <source src="video3.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide" style="min-width:100%;">
+          <video controls>
+            <source src="video4.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide" style="min-width:100%;">
+          <video controls>
+            <source src="video5.mp4" type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="prevVid">◀ Prev</button>
+        <button class="btn" id="nextVid">Next ▶</button>
+      </div>
+
       <button class="btn" id="nextBtn">Continue ❤️</button>
     </div>
   </div>
 
   <audio id="bg" preload="auto" loop></audio>
-  <script>
-    const AUDIO_SRC='https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-    const bg=document.getElementById('bg'); bg.src=AUDIO_SRC;
-    window.addEventListener('load', ()=>{ const t=parseFloat(localStorage.getItem('bg_time')||0); const p=localStorage.getItem('bg_playing')==='1'; if(p){ bg.currentTime=t; bg.play().catch(()=>{}); }});
-    window.addEventListener('beforeunload', ()=>{ localStorage.setItem('bg_time', Math.floor(bg.currentTime)); localStorage.setItem('bg_playing', bg.paused? '0':'1'); });
+<script>
+  const AUDIO_SRC='https://www.bensound.com/bensound-music/bensound-tenderness.mp3';
+  const bg=document.getElementById('bg'); bg.src=AUDIO_SRC;
 
-    const vid=document.getElementById('vid');
-    vid.addEventListener('play', ()=>{ // fade bg out
-      let vol=1; const fade=setInterval(()=>{ vol-=0.07; if(vol<=0){ bg.volume=0; clearInterval(fade); } else bg.volume=vol; },120);
-    });
-    vid.addEventListener('pause', ()=>{ // fade bg back in
-      let vol=0; const fade=setInterval(()=>{ vol+=0.06; bg.volume=Math.min(vol,1); if(vol>=1){ clearInterval(fade); } },120);
-    });
+  window.addEventListener('load', ()=>{ 
+    const t=parseFloat(localStorage.getItem('bg_time')||0); 
+    const p=localStorage.getItem('bg_playing')==='1'; 
+    if(p){ bg.currentTime=t; bg.play().catch(()=>{}); }
+  });
+  window.addEventListener('beforeunload', ()=>{ 
+    localStorage.setItem('bg_time', Math.floor(bg.currentTime)); 
+    localStorage.setItem('bg_playing', bg.paused? '0':'1'); 
+  });
 
-    document.getElementById('nextBtn').addEventListener('click', ()=>{
-      localStorage.setItem('bg_time', Math.floor(bg.currentTime)); localStorage.setItem('bg_playing','1'); location.href='ending.html';
+  const slides = document.querySelectorAll(".slide video");
+  const track = document.getElementById("vtrack");
+  let index = 0;
+
+  function update(){ track.style.transform = `translateX(-${index * 100}%)`; }
+
+  document.getElementById("nextVid").onclick = ()=>{ index = (index+1) % slides.length; update(); };
+  document.getElementById("prevVid").onclick = ()=>{ index = (index-1+slides.length) % slides.length; update(); };
+
+  slides.forEach(v=>{
+    v.addEventListener('play', ()=>{
+      let vol=1; const fade=setInterval(()=>{ vol-=0.07; if(vol<=0){ bg.volume=0; clearInterval(fade);} else bg.volume=vol; },120);
     });
-  </script>
+    v.addEventListener('pause', ()=>{
+      let vol=0; const fade=setInterval(()=>{ vol+=0.06; bg.volume=Math.min(vol,1); if(vol>=1){ clearInterval(fade);} },120);
+    });
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', ()=>{
+    localStorage.setItem('bg_time', Math.floor(bg.currentTime)); 
+    localStorage.setItem('bg_playing','1'); 
+    location.href='ending.html';
+  });
+</script>
 </body>
 </html>
