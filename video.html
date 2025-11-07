@@ -19,7 +19,16 @@
 
     <div class="video-box">
       <!-- Replace video.mp4 with your uploaded file or use an external mp4 link -->
-      <video id="vid" width="100%" controls>
+      <video id="vid" controls style="
+  max-height: 80vh;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+  background: #fff;
+">
         <source src="video.mp4" type="video/mp4">
         Your browser does not support video tag.
       </video>
